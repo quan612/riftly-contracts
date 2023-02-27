@@ -19,6 +19,7 @@ contract RiftlyNFT is
     CantBeEvilUpgradable
 {
     using ECDSAUpgradeable for bytes32;
+     bytes32 public constant MINTABLE_ROLE = keccak256("MINTABLE_ROLE");
 
     /// @dev Emit an event when the contract is deployed
     event ContractDeployed(address owner);
@@ -63,7 +64,7 @@ contract RiftlyNFT is
     }
 
     function treasuryMint(uint256 amount)
-        external
+        external onlyRole(MINTABLE_ROLE)
     {
         _safeMint(address(_treasury), amount);
     }
